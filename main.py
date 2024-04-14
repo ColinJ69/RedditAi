@@ -1,30 +1,10 @@
-from bs4 import BeautifulSoup
 import requests
 import praw
-import re
-import nltk
-from nltk.corpus import stopwords
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import BernoulliNB
-
-def clean(text):
-    nltk.download('stopwords')
-    stopword=set(stopwords.words('english'))
-    stemmer = nltk.SnowballStemmer("english")
-    text = str(text).lower()
-    text = re.sub('\[.*?\]', '', text)
-    text = re.sub('https?://\S+|www\.\S+', '', text)
-    text = re.sub('<.*?>+', '', text)
-    text = re.sub('\n', '', text)
-    text = re.sub('\w*\d\w*', '', text)
-    text = [word for word in text.split(' ') if word not in stopword]
-    text=" ".join(text)
-    text = [stemmer.stem(word) for word in text.split(' ')]
-    text=" ".join(text)
-    return text
 
 def get_posts(user):
   reddit = praw.Reddit(
@@ -37,10 +17,13 @@ def get_posts(user):
   )
   test_user = reddit.redditor(str(user))
   sub = test_user.submissions.new(limit=None)
+  comment = test_user.comments.new(limit=None)
   self_texts = []
   for link in sub:
     self_texts.append(link.selftext)
-  return clean(self_texts)
+  for e in comment:
+    self_texts.append(e.body)
+  return self_texts
 
 def response(user):
   response = requests.get("https://github.com/ColinJ69/miniature-happiness/raw/main/Book%20(1)%20(3).xlsx")
@@ -65,7 +48,8 @@ def response(user):
   
   
   lit = []
-  for i in get_posts(user):
+  e = get_posts(user)
+  for i in e:
     data = cv.transform([i]).toarray()
     output = fit.predict(data)
     lit.append(output.item())
@@ -74,5 +58,11 @@ def response(user):
 
 if __name__ == '__main__':
   x = input()
-  print(response(x))
+  result = response(x)
+  j = round(len(result)/4)
+  u = (len(result) - j)
+  if sorted(result)[int(u)] == 1:
+    print("depressed")
+  else:
+    print("nuh uh")
     
