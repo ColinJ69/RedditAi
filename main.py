@@ -8,11 +8,10 @@ from sklearn.naive_bayes import BernoulliNB
 
 def get_posts(user):
   reddit = praw.Reddit(
-    client_id="cznO3iIkmeYrb-erL9QhXQ",
-    client_secret="3_CNe1qZikS8WdQQTsKt67pgo9rJGA",
-    password="Major07Bella",
-    user_agent="script by u/Emotional_Total_8846",
-    user="Emotional_Total_8846",
+    client_id=creds['client_id'],
+    client_secret=creds['client_secret'],
+    user_agent=creds['user_agent'],
+    redirect_uri=creds['redirect_uri'],
     check_for_async=False
   )
   test_user = reddit.redditor(str(user))
