@@ -5,10 +5,16 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import BernoulliNB
+import math
+import json
 
 def get_posts(user):
+  credentials = 'client_secrets.json'#store my keys in there
+
+  with open(credentials) as f:
+    creds = json.load(f)
   reddit = praw.Reddit(
-    client_id=creds['client_id'],#gotta get ur own credentials, I'm not sharing my login info :D
+    client_id=creds['client_id'],
     client_secret=creds['client_secret'],
     user_agent=creds['user_agent'],
     redirect_uri=creds['redirect_uri'],
@@ -59,7 +65,7 @@ if __name__ == '__main__':
   x = input()
   result = response(x)
   j = round(len(result)/4)
-  u = (len(result) - j)
+  u = math.ceil(len(result) - j)
   if sorted(result)[int(u)] == 1:
     print("depressed")
   else:
