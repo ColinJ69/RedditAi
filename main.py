@@ -8,7 +8,7 @@ from sklearn.naive_bayes import BernoulliNB
 
 def get_posts(user):
   reddit = praw.Reddit(
-    client_id=creds['client_id'],
+    client_id=creds['client_id'],#gotta get ur own credentials, I'm not showing my reddit acc :D
     client_secret=creds['client_secret'],
     user_agent=creds['user_agent'],
     redirect_uri=creds['redirect_uri'],
