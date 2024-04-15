@@ -31,7 +31,7 @@ def get_posts(user):
   return self_texts
 
 def response(user):
-  response = requests.get("https://github.com/ColinJ69/miniature-happiness/raw/main/Book%20(1)%20(3).xlsx")#small private dataset I made
+  response = requests.get("personal_dataset.not_public")#small private dataset I made
   data = pd.read_excel(response.content,usecols = [0,1])
   
   x = np.array(data["Text"])
