@@ -72,7 +72,7 @@ if __name__ == '__main__':
   try:
     x = request.files['user']
     response = response(x)
-    math_stuff = math.ceil(len(result) - (round(len(result)/4)))
+    math_stuff = math.ceil(len(response) - (round(len(response)/4)))
     if sorted(result)[int(math_stuff)] == 0:
       return render_template('okay_profile.html')
     else:
