@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import BernoulliNB
 import math
 import json
+from flask import Flask, redirect, request, render_template
 
 def get_posts(user):
   credentials = 'client_secrets.json'#store my keys in there
@@ -62,12 +63,23 @@ def response(user):
 
 
 if __name__ == '__main__':
-  x = input()
-  result = response(x)
-  j = round(len(result)/4)
-  u = math.ceil(len(result) - j)
-  if sorted(result)[int(u)] == 1:
-    print("depressed")
-  else:
-    print("nuh uh")
+  app = Flask(__name__)
+  @app.route()
+  def main():
+    return render_template('main.html', error='')
+  @app.route():
+  def result():
+  try:
+    x = request.files['user']
+    response = response(x)
+    math_stuff = math.ceil(len(result) - (round(len(result)/4)))
+    if sorted(result)[int(math_stuff)] == 0:
+      return render_template('okay_profile.html')
+    else:
+      return render_template('worrying_profile.html')
+  except:
+    return redirect('main.hmtl', error='Error took place, enter valid user and try again')
+    
+  
+    
     
