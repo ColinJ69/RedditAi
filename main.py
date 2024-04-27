@@ -64,10 +64,10 @@ def response(user):
 
 if __name__ == '__main__':
   app = Flask(__name__)
-  @app.route()
+  @app.route('/')
   def main():
     return render_template('main.html', error='')
-  @app.route():
+  @app.route('/result', methods=['GET', 'POST']):
   def result():
   try:
     x = request.files['user']
